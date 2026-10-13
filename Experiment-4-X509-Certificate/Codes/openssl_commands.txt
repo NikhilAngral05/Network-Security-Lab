@@ -1,0 +1,126 @@
+EXPERIMENT 4
+Generate, Inspect and Verify a Self-Signed X.509 Digital Certificate Using OpenSSL
+
+1. CHECK OPENSSL VERSION
+
+Command:
+openssl version
+
+Purpose:
+Checks the installed OpenSSL version on Kali Linux.
+
+
+2. CREATE EXPERIMENT DIRECTORY
+
+Command:
+mkdir -p ~/Experiment-4-X509
+
+Purpose:
+Creates a separate working directory for the experiment.
+
+
+3. ENTER THE DIRECTORY
+
+Command:
+cd ~/Experiment-4-X509
+
+Purpose:
+Moves to the experiment directory.
+
+
+4. GENERATE RSA PRIVATE KEY
+
+Command:
+openssl genrsa -out private.key 2048
+
+Purpose:
+Generates a 2048-bit RSA private key.
+
+Note:
+The private key must be kept secure and should not be uploaded to GitHub.
+
+
+5. GENERATE SELF-SIGNED X.509 CERTIFICATE
+
+Command:
+openssl req -x509 -new -key private.key -sha256 -days 365 -out certificate.crt -addext "subjectAltName=DNS:localhost,IP:127.0.0.1"
+
+Purpose:
+Creates a self-signed X.509 certificate using the private key.
+
+The certificate is valid for 365 days and includes localhost and 127.0.0.1 as SAN entries.
+
+
+6. DISPLAY CERTIFICATE DETAILS
+
+Command:
+openssl x509 -in certificate.crt -text -noout
+
+Purpose:
+Displays the information stored in the certificate.
+
+
+7. CHECK SUBJECT ALTERNATIVE NAME
+
+Command:
+openssl x509 -in certificate.crt -text -noout | grep -A1 "Subject Alternative Name"
+
+Purpose:
+Displays the SAN entries of the certificate.
+
+
+8. VERIFY THE CERTIFICATE
+
+Command:
+openssl verify -CAfile certificate.crt certificate.crt
+
+Purpose:
+Checks whether the self-signed certificate can be verified.
+
+Expected Output:
+certificate.crt: OK
+
+
+9. GENERATE SHA-256 FINGERPRINT
+
+Command:
+openssl x509 -in certificate.crt -noout -fingerprint -sha256
+
+Purpose:
+Generates the SHA-256 fingerprint of the certificate.
+
+
+10. SAVE CERTIFICATE DETAILS
+
+Command:
+openssl x509 -in certificate.crt -text -noout > outputs/certificate-details.txt
+
+Purpose:
+Saves the certificate details into a text file.
+
+
+11. SAVE SAN INFORMATION
+
+Command:
+openssl x509 -in certificate.crt -text -noout | grep -A1 "Subject Alternative Name" > outputs/san-details.txt
+
+Purpose:
+Saves the SAN information into a text file.
+
+
+12. SAVE VERIFICATION RESULT
+
+Command:
+openssl verify -CAfile certificate.crt certificate.crt > outputs/verification.txt
+
+Purpose:
+Saves the certificate verification result into a text file.
+
+
+13. SAVE SHA-256 FINGERPRINT
+
+Command:
+openssl x509 -in certificate.crt -noout -fingerprint -sha256 > outputs/fingerprint.txt
+
+Purpose:
+Saves the SHA-256 fingerprint into a text file.
