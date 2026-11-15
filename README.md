@@ -6,3 +6,5 @@
 **Institute:** MIET, Jammu
 
 This repository contains the laboratory work for the Network Security Lab.
+
+- [Experiment 8: OpenPGP Secure Email](Experiment-8/README.md)
